@@ -19,7 +19,6 @@ from azure_devtools.scenario_tests import ReplayableTest, AzureTestError
 
 from devtools_testutils import mgmt_settings_fake as fake_settings
 
-
 CWD = dirname(realpath(__file__))
 
 class FaceTest(ReplayableTest):
