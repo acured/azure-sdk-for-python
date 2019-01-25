@@ -9,6 +9,7 @@
 # regenerated.
 # --------------------------------------------------------------------------
 from os.path import dirname, join, realpath
+from time import sleep
 
 from azure.cognitiveservices.vision.face import FaceClient
 from azure.cognitiveservices.vision.face.models import Gender
@@ -17,6 +18,7 @@ from msrest.authentication import CognitiveServicesCredentials
 from azure_devtools.scenario_tests import ReplayableTest, AzureTestError
 
 from devtools_testutils import mgmt_settings_fake as fake_settings
+
 
 CWD = dirname(realpath(__file__))
 
@@ -67,8 +69,8 @@ class FaceTest(ReplayableTest):
         face_client = FaceClient("https://westus2.api.cognitive.microsoft.com", credentials=credentials)
 
         # Create a PersonGroup.
-        personGroupId = str(uuid.uuid4())
-        newPersonGroupId = str(uuid.uuid4())
+        personGroupId = "69ff3e98-2de7-468e-beae-f78aa85200db"
+        newPersonGroupId = "fb644ecf-3ed0-4b25-9270-1d174b980afb"
 
         face_client.person_group.create(personGroupId, "test", "test")
 
