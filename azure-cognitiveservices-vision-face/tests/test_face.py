@@ -66,15 +66,13 @@ class FaceTest(ReplayableTest):
         )
         face_client = FaceClient("https://westus2.api.cognitive.microsoft.com", credentials=credentials)
 
-        """Create a PersonGroup.
-        """
+        # Create a PersonGroup.
         personGroupId = str(uuid.uuid4())
         newPersonGroupId = str(uuid.uuid4())
 
         face_client.person_group.create(personGroupId, "test", "test")
 
-        """Take a snapshot for the PersonGroup
-        """
+        # Take a snapshot for the PersonGroup
         apply_scope = ["Apply-Scope-Subscriptions"]
         snapshot_type = "PersonGroup"
 
@@ -84,8 +82,7 @@ class FaceTest(ReplayableTest):
         getOperationStatusResponse = face_client.snapshot.get_operation_status(takeOperationId)
         operationStatus = getOperationStatusResponse.additional_properties["Status"]
         
-        """Waiting for take operation to complete.
-        """
+        # Wait for take operation to complete.        
         while operationStatus != "succeeded" and operationStatus != "failed":
           getOperationStatusResponse = face_client.snapshot.get_operation_status(takeOperationId)
           operationStatus = getOperationStatusResponse.additional_properties["Status"]
@@ -95,16 +92,14 @@ class FaceTest(ReplayableTest):
 
         snapshotId = getOperationStatusResponse.additional_properties["ResourceLocation"].split("/")[2]
         
-        """Apply the snapshot to a new PersonGroup.
-        """        
+        # Apply the snapshot to a new PersonGroup.
         applySnapshotResponse = face_client.snapshot.apply(snapshotId, newPersonGroupId, raw=True)
         applyOperationId = applySnapshotResponse.headers["Operation-Location"].split("/")[2]
 
         applyOperationStatusResponse = face_client.snapshot.get_operation_status(applyOperationId)
         operationStatus = applyOperationStatusResponse.additional_properties["Status"]
         
-        """Wait for apply operation to complete.
-        """
+        # Wait for apply operation to complete.
         while operationStatus != "succeeded" and operationStatus != "failed":
           applyOperationStatusResponse = face_client.snapshot.get_operation_status(applyOperationId)
           operationStatus = applyOperationStatusResponse.additional_properties["Status"]
